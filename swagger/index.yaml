@@ -1,0 +1,13 @@
+openapi: 3.0.0
+
+info:
+  title: Book Shop API
+  version: 1.0.0
+  description: "Book Shop 프로젝트 API 명세서입니다."
+
+paths:
+  $ref: './paths/users.yaml#/paths'
+
+components:
+  schemas:
+    $ref: './components/schemas.yaml#/components/schemas'

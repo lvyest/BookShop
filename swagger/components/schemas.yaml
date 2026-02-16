@@ -1,0 +1,32 @@
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          example: "test@gmail.com"
+          description: "사용자 이메일"
+        password:
+          type: string
+          example: "password123"
+          description: "사용자 비밀번호"
+    EmailOnly:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          example: "test@gmail.com"
+          description : "비밀번호 초기화 요청"
+    TokenResponse:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "test@gmail.com"
+          description : "로그인 성공 응답 구조"

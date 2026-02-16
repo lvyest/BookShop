@@ -1,6 +1,18 @@
 const express = require('express');
 const app = express();
 
+// 새로 추가된 부분
+const swaggerUi = require('swagger-ui-express');
+const yaml = require('yamljs');
+const path = require('path');
+
+const swaggerSpec = yaml.load(path.join(__dirname, './swagger.yaml'));
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// 여기까지
+
+
 const dotenv = require('dotenv');
 dotenv.config();
 

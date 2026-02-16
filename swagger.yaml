@@ -1,0 +1,117 @@
+openapi: 3.0.0
+info:
+  title: Book Shop API
+  version: 1.0.0
+  description: Book Shop 프로젝트 API 명세서입니다.
+paths:
+  /users/join:
+    post:
+      summary: 회원가입
+      description: 새로운 사용자를 등록합니다.
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: 회원가입 성공
+        '400':
+          description: 잘못된 요청
+  /users/login:
+    post:
+      summary: 로그인
+      description: 이메일과 비밀번호로 로그인합니다.
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: 로그인 성공 (쿠키에 JWT 저장)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          description: 잘못된 요청
+        '401':
+          description: 로그인 실패
+  /users/reset:
+    post:
+      summary: 비밀번호 초기화 요청
+      description: 이메일이 존재하는지 확인합니다.
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailOnly'
+      responses:
+        '200':
+          description: 이메일 존재 확인
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailOnly'
+        '400':
+          description: 잘못된 요청
+        '401':
+          description: 이메일 없음
+    put:
+      summary: 비밀번호 재설정
+      description: 새 비밀번호로 변경합니다.
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: 비밀번호 변경 성공
+        '400':
+          description: 변경 실패
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          example: test@gmail.com
+          description: 사용자 이메일
+        password:
+          type: string
+          example: password123
+          description: 사용자 비밀번호
+    EmailOnly:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          example: test@gmail.com
+          description: 비밀번호 초기화 요청
+    TokenResponse:
+      type: object
+      properties:
+        email:
+          type: string
+          example: test@gmail.com
+          description: 로그인 성공 응답 구조
