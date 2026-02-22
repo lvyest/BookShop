@@ -94,3 +94,22 @@ DELETE FROM cartItems WHERE id = ?;
 
 //장바구니에서 선택한(장바구니 도서 id) 아이템 목록 조회 = 선택한 장바구니 상품 목록 조회
 SELECT * FROM Bookshop.cartitems WHERE user_id=1 AND id IN(1,3);
+
+// 주문하기
+// 배송 정보 입력
+INSERT INTO delivery (address, receiver, contact) VALUES ("용인시 수지구", "김가영", "010-1234-5678")
+const delivery_id = SELECT max(id) FROM delivery
+
+// 주문 정보 입력
+INSERT INTO orders (book_title, total_quantity, total_price, user_id, delivery_id)
+VALUES ("어린완자들", 3, 60000, 1, delivery_id);
+const order_id = SELECT max(id) FROM orders;
+
+// 주문 상세 목록 입력 
+INSERT INTO orderedBook(order_id, book_id, quantity)
+VALUES (order_id,1,1);
+INSERT INTO orderedBook(order_id, book_id, quantity)
+VALUES (order_id,3,2);
+
+SELECT max(id) FROM Bookshop.orderedBook;
+SELECT last_insert_id();
