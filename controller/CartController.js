@@ -1,14 +1,14 @@
 const ensureAuthorization = require('../auth'); 
+const jwt = require('jsonwebtoken'); //jwt 모듈
 const conn = require('../mariadb'); //db 모듈
 const {StatusCodes} = require('http-status-codes'); //status code 모듈
-const dotenv = require('dotenv'); //dotenv 모듈
-dotenv.config(); //dotenv 설정
-const jwt = require('jsonwebtoken'); //jwt 모듈
+
 // 장바구니 담기
 const addToCart = (req, res) => {
     const {book_id, quantity} = req.body;
 
     let authorization = ensureAuthorization(req, res);
+
     if(authorization instanceof jwt.TokenExpiredError) {
         return res.status(StatusCodes.UNAUTHORIZED).json({
             "message" : "로그인 세션이 만료되었습니다. 다시 로그인 하세요."
@@ -20,7 +20,6 @@ const addToCart = (req, res) => {
     }
     else {
         let sql = "INSERT INTO cartItems(book_id, quantity, user_id) VALUES(?, ?, ?);";
-
         let values = [book_id, quantity, authorization.id];
         conn.query(sql, values, 
             (err, results) => {
@@ -28,7 +27,6 @@ const addToCart = (req, res) => {
                     console.log(err);
                     return res.status(StatusCodes.BAD_REQUEST).end(); 
                 }
-
                 return res.status(StatusCodes.OK).json(results);
         })  
     }
@@ -70,8 +68,6 @@ const getCartItems = (req, res) => {
                 return res.status(StatusCodes.OK).json(results);
         })    
     }
-
-
 }
 
 // 장바구니 아이템 삭제 
