@@ -1,5 +1,5 @@
 // mysql 모듈 
-const mariadb = require('mysql2/promise');
+const mariadb = require('mysql2');
 
 // DB와 연결 통로 생성
 const connection = mariadb.createConnection({
