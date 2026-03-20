@@ -5,12 +5,17 @@ dotenv.config(); //dotenv 설정
 const ensureAuthorization = (req, res) => {
     try {
         let receivedJwt = req.headers["authorization"];
-        console.log(receivedJwt);
+        console.log("receivedJwt:", receivedJwt);
 
-        let decodedJwt = jwt.verify(receivedJwt, process.env.PRIVATE_KEY);
-        console.log(decodedJwt);
+        if(receivedJwt){
+            let decodedJwt = jwt.verify(receivedJwt, process.env.PRIVATE_KEY);
+            console.log("decodedJwt:", decodedJwt);
 
-        return decodedJwt;
+            return decodedJwt;
+        } else {
+            throw new ReferenceError("jwt must be provided");
+        }
+
     } catch (err) {
         console.log(err.name);
         console.log(err.message);
