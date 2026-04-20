@@ -1,8 +1,15 @@
+const cors = require("cors");
+
 const express = require('express');
 const app = express();
 
 const dotenv = require('dotenv');
 dotenv.config();
+
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true
+}));
 
 app.listen(process.env.PORT);
 
@@ -19,3 +26,4 @@ app.use("/category", categoryRouter)
 app.use("/likes", likeRouter);
 app.use("/carts", cartRouter);
 app.use("/orders", orderRouter);
+

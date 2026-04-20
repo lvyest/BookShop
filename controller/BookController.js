@@ -12,7 +12,7 @@ const allBooks = (req, res)=> {
     // currentPage : 현재 몇 페이지 인지. ex. 1, 2, 3...
     // offset :                       ex. 0, 3, 6, 9, 12...
     //                                limit * (currentPage - 1)
-    let offset = limit * (currentPage - 1);
+    let offset = parseInt(limit) * (parseInt(currentPage) - 1);
 
     let sql = "SELECT SQL_CALC_FOUND_ROWS *, (SELECT count(*) FROM likes WHERE liked_book_id=books.id) AS likes FROM books";
     let values = [];
@@ -36,10 +36,10 @@ const allBooks = (req, res)=> {
         (err, results) => {
         if(err) {
             console.log(err);
-            //return res.status(StatusCodes.BAD_REQUEST).end(); 
+            return res.status(StatusCodes.BAD_REQUEST).end(); 
         }
         console.log(results);
-        if(results.length){
+        if(results && results.length){
             results.map(function(result){
                 result.pubDate = result.pub_date;
                 delete result.pub_date;
